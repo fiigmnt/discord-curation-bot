@@ -1,0 +1,8 @@
+{
+  "token": "bot_token",
+  "channels": {
+    "newsfeed" : "source_id",
+    "aggregator" : "aggregator_id"
+  },
+  "emoji": "📰"
+}

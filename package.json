@@ -1,0 +1,15 @@
+{
+  "name": "jump-aggregator",
+  "version": "0.1.0",
+  "description": "JUMP discord aggregator",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fiigmnt",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.3.1"
+  }
+}
