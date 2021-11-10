@@ -5,11 +5,7 @@
 // ----------------------------------------------------------------------------------//
 
 const { Client, Intents } = require('discord.js');
-const {
-  channels: { newsfeed, aggregator },
-  emoji,
-  token,
-} = require('./config.json');
+const { newsfeed, aggregator, token } = process.env;
 
 const client = new Client({
   intents: [
@@ -34,7 +30,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
     const { message, _emoji } = reaction;
     const reactedEmoji = _emoji.name
 
-    if (message.channelId === newsfeed && reactedEmoji === emoji) {
+    if (message.channelId === newsfeed && reactedEmoji === '📰') {
       const channel = client.channels.cache.get(aggregator);
       channel.send(message.content);
     }
