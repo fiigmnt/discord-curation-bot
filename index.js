@@ -20,6 +20,7 @@ client.once('ready', () => {
   console.log('Ready!');
 });
 
+// TODO: add reaction remove too
 client.on('messageReactionAdd', async (reaction, user) => {
   try {
     // When a reaction is received, check if the structure is partial
@@ -27,12 +28,20 @@ client.on('messageReactionAdd', async (reaction, user) => {
       await reaction.fetch();
     }
 
-    const { message, _emoji } = reaction;
-    const reactedEmoji = _emoji.name
+    const {
+      message: { id, channelId },
+      _emoji,
+      count,
+    } = reaction;
 
-    if (message.channelId === newsfeed && reactedEmoji === '📰') {
+    const sendMessage = () => {
+      return channelId === newsfeed && _emoji.name === '📰' && count === 5;
+    };
+
+    if (sendMessage()) {
       const channel = client.channels.cache.get(aggregator);
-      channel.send(message.content);
+      const formattedMessage = `Shared by @${message.author.username}}\n${message.content}`;
+      channel.send(formattedMessage);
     }
   } catch (error) {
     console.error('Something went wrong when fetching the message:', error);
