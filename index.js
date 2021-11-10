@@ -28,11 +28,8 @@ client.on('messageReactionAdd', async (reaction, user) => {
       await reaction.fetch();
     }
 
-    const {
-      message: { id, channelId },
-      _emoji,
-      count,
-    } = reaction;
+    const { message, _emoji, count } = reaction;
+    const { id, channelId } = message;
 
     const sendMessage = () => {
       return channelId === newsfeed && _emoji.name === '📰' && count === 5;
@@ -40,7 +37,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
     if (sendMessage()) {
       const channel = client.channels.cache.get(aggregator);
-      const formattedMessage = `Shared by @${message.author.username}}\n${message.content}`;
+      const formattedMessage = `Shared by @${message.author.username}\n${message.content}`;
       channel.send(formattedMessage);
     }
   } catch (error) {
