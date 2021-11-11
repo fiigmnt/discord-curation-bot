@@ -29,10 +29,10 @@ client.on('messageReactionAdd', async (reaction, user) => {
     }
 
     const { message, _emoji, count } = reaction;
-    const { id, channelId } = message;
+    const { channelId } = message;
 
     const sendMessage = () => {
-      return channelId === newsfeed && _emoji.name === '📰' && count === 5;
+      return channelId === newsfeed && _emoji.id === '908201130192953384' && count === 5;
     };
 
     if (sendMessage()) {
