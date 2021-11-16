@@ -6,7 +6,7 @@
 
 import { Client, Intents } from 'discord.js';
 import { Client as NotionClient } from '@notionhq/client';
-const { DISCORD_TOKEN, NOTION_KEY, CURATED, CREATIVE, NOTION_BOUNTIES } =
+const { DISCORD_TOKEN, NOTION_KEY, CURATED, NEWSFEED, CREATIVE, NOTION_BOUNTIES } =
   process.env;
 
 const client = new Client({
@@ -107,7 +107,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
     const sendMessage = () => {
       return (
-        channelId === CURATED &&
+        channelId === NEWSFEED &&
         _emoji.id === '908201130192953384' &&
         count === 5
       );
