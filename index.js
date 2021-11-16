@@ -87,8 +87,8 @@ client.on('interactionCreate', async (interaction) => {
   if (commandName === 'creative') {
     const bountyDescription = interaction.options.getString('description');
     const channel = client.channels.cache.get(CREATIVE);
-    const notionResponse = await addBounty(bountyDescription);
-    const formattedMessage = `@${user.username} has put in a request for a new creative asset!\n${notionResponse.url}`;
+    // const notionResponse = await addBounty(bountyDescription);
+    const formattedMessage = `@${user.username} has put in a request for a new creative asset!\n${bountyDescription}`;
     channel.send(formattedMessage);
     await interaction.reply('Your request has been sent!');
   }
