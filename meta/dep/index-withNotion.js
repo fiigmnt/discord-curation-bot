@@ -5,7 +5,8 @@
 // ----------------------------------------------------------------------------------//
 
 import { Client, Intents } from 'discord.js';
-const { DISCORD_TOKEN, CURATED, NEWSFEED, CREATIVE } =
+import { Client as NotionClient } from '@notionhq/client';
+const { DISCORD_TOKEN, NOTION_KEY, CURATED, NEWSFEED, CREATIVE, NOTION_BOUNTIES } =
   process.env;
 
 const client = new Client({
@@ -16,6 +17,63 @@ const client = new Client({
   ],
   partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 });
+
+const notion = new NotionClient({ auth: NOTION_KEY });
+
+// Used to test notion API
+// const getDatabase = async () => {
+//   const response = await notion.databases.query({
+//     database_id: NOTION_BOUNTIES,
+//   });
+
+//   console.log(JSON.stringify(response));
+// };
+
+// getDatabase();
+
+async function addBounty(bountyDescription) {
+  try {
+    const response = await notion.pages.create({
+      parent: { database_id: NOTION_BOUNTIES },
+      "icon": { "type": "emoji", "emoji": "🍭" },
+      properties: {
+        Name: {
+          id: 'title',
+          type: 'title',
+          title: [
+            {
+              type: 'text',
+              text: { content: 'Creative Request', link: null },
+            },
+          ],
+        },
+        'Work Stream': {
+          id: 'RKx%3E',
+          type: 'select',
+          select: {
+            id: '7c73a641-d4df-450a-8f72-8819606a11c1',
+            name: 'creative',
+            color: 'blue',
+          },
+        },
+        Description: {
+          type: 'rich_text',
+          rich_text: [
+            {
+              type: 'text',
+              text: { content: bountyDescription, link: null },
+            },
+          ],
+        },
+      },
+    });
+    // console.log(response);
+    // console.log('Success! Entry added.');
+    return response;
+  } catch (error) {
+    console.error(error.body);
+  }
+}
 
 client.once('ready', () => {
   console.log('Ready!');
@@ -29,6 +87,7 @@ client.on('interactionCreate', async (interaction) => {
   if (commandName === 'creative') {
     const bountyDescription = interaction.options.getString('description');
     const channel = client.channels.cache.get(CREATIVE);
+    const notionResponse = await addBounty(bountyDescription);
     const formattedMessage = `@${user.username} has put in a request for a new creative asset!\n${bountyDescription}`;
     channel.send(formattedMessage);
     await interaction.reply('Your request has been sent!');

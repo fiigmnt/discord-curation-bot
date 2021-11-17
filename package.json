@@ -15,7 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
-    "@notionhq/client": "^0.4.6",
     "discord-api-types": "^0.24.0",
     "discord.js": "^13.3.1"
   }
