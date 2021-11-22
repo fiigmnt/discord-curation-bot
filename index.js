@@ -50,7 +50,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
       return (
         channelId === NEWSFEED &&
         _emoji.id === '908201130192953384' &&
-        count === 5
+        count === 2
       );
     };
 
