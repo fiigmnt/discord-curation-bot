@@ -1,4 +1,4 @@
-# CURRATION Bot 🤖
+# Discord Curation Bot 🤖
 
 >it's probably nothing
 
