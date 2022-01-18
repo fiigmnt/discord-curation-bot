@@ -1,12 +1,12 @@
 // ----------------------------------------------------------------------------------//
 // Main
-// JUMP Discord Bot (( BETA v0.1.0 ))
-// Fiig | November 10, 2021 | Updated:
+// Discord Curation Bot (( BETA v0.1.0 ))
+// Fiigmnt | November 11, 2021 | Updated: January 17, 2022
 // ----------------------------------------------------------------------------------//
 
-import { Client, Intents } from 'discord.js';
-const { DISCORD_TOKEN, CURATED, NEWSFEED, CREATIVE } =
-  process.env;
+const { Client, Intents } = require('discord.js');
+const { CURATE_FROM, POST_TO, DISCORD_TOKEN } = process.env;
+const channelIds = CURATE_FROM.split(',');
 
 const client = new Client({
   intents: [
@@ -18,21 +18,7 @@ const client = new Client({
 });
 
 client.once('ready', () => {
-  console.log('Ready!');
-});
-
-client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isCommand()) return;
-
-  const { commandName, user } = interaction;
-
-  if (commandName === 'creative') {
-    const bountyDescription = interaction.options.getString('description');
-    const channel = client.channels.cache.get(CREATIVE);
-    const formattedMessage = `@${user.username} has put in a request for a new creative asset!\n${bountyDescription}`;
-    channel.send(formattedMessage);
-    await interaction.reply('Your request has been sent!');
-  }
+  console.log('Bot is ready');
 });
 
 // TODO: add reaction remove too
@@ -47,16 +33,12 @@ client.on('messageReactionAdd', async (reaction, user) => {
     const { channelId } = message;
 
     const sendMessage = () => {
-      return (
-        channelId === NEWSFEED &&
-        _emoji.id === '908201130192953384' &&
-        count === 2
-      );
+      return channelIds.includes(channelId) && _emoji.name === '📰' && count === 5;
     };
 
     if (sendMessage()) {
-      const channel = client.channels.cache.get(CURATED);
-      const formattedMessage = `Shared by @${message.author.username}\n${message.content}`;
+      const channel = client.channels.cache.get(POST_TO);
+      const formattedMessage = `This post received 5 📰 reactions, shared by @${message.author.username})\n${message.content}`;
       channel.send(formattedMessage);
     }
   } catch (error) {
